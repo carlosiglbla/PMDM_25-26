@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">ComponentesBasicos</string>
+    <string name="componentes_basicos">Componentes Básicos</string>
+    <string name="introduce_un_texto">Introduce un texto</string>
+    <string name="mostrar_texto">Mostrar texto</string>
+    <string name="boton_de_imagen">Botón de imagen</string>
+    <string name="activar_opcion">Activar opción</string>
+    <string name="opcion_1">Opción 1</string>
+    <string name="opcion_2">Opción 2</string>
+    <string name="desactivado">Desactivado</string>
+    <string name="activado">Activado</string>
+    <string name="interruptor">Interruptor</string>
+    <string name="resultado_aqu">Resultado aquí...</string>
+</resources>
