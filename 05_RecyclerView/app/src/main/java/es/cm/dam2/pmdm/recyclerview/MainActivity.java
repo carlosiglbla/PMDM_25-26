@@ -1,8 +1,13 @@
 package es.cm.dam2.pmdm.recyclerview;
 
 import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -15,7 +20,7 @@ import java.util.List;
 
 import es.cm.dam2.pmdm.recyclerview.data.Pelicula;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecyclerPelisInterface{
 
     private final List<Pelicula> dataPelis = new ArrayList<>();
 
@@ -34,8 +39,42 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView rvPelis = findViewById(R.id.rvPeliculas);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rvPelis.setLayoutManager(linearLayoutManager);
-        AdaptadorPelis miAdaptadorPelis = new AdaptadorPelis(dataPelis);
+        AdaptadorPelis miAdaptadorPelis = new AdaptadorPelis(dataPelis, this);
         rvPelis.setAdapter(miAdaptadorPelis);
+
+        //añadir escucha de eventos
+        rvPelis.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            final GestureDetector gestureDetector = new GestureDetector(getApplicationContext(), new GestureDetector.SimpleOnGestureListener(){
+                @Override
+                public boolean onSingleTapUp(@NonNull MotionEvent e) {
+                    return true;
+                }
+            });
+
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                View hijo = rv.findChildViewUnder(e.getX(), e.getY());
+                if(hijo != null && gestureDetector.onTouchEvent(e)){
+                    int position = rv.getChildAdapterPosition(hijo);
+                    Toast.makeText(getApplicationContext(),
+                            dataPelis.get(position).getNombre(), Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
+
+
+
     }
 
     private void initData() {
@@ -50,5 +89,11 @@ public class MainActivity extends AppCompatActivity {
         dataPelis.add(new Pelicula("Kill Bill Vol.1", 2000, R.drawable.kill_bill_volume_1));
         dataPelis.add(new Pelicula("Kill Bill Vol.2", 2006,R.drawable.kill_bill_volume_2));
         dataPelis.add(new Pelicula("Pulp Fiction", 2007, R.drawable.pulp_fiction));
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Toast.makeText(getApplicationContext(),
+                dataPelis.get(position).getAnio()+"", Toast.LENGTH_LONG).show();
     }
 }

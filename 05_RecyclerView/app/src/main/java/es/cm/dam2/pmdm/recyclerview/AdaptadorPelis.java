@@ -1,6 +1,5 @@
 package es.cm.dam2.pmdm.recyclerview;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,28 +9,40 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import es.cm.dam2.pmdm.recyclerview.data.Pelicula;
 
 public class AdaptadorPelis extends RecyclerView.Adapter<AdaptadorPelis.PelisViewHolder> {
-    private List<Pelicula> dataPelis;
+    private final RecyclerPelisInterface recyclerPelisInterface;
+    private final List<Pelicula> dataPelis;
 
+    //Inner class
     public static class PelisViewHolder extends RecyclerView.ViewHolder{
         public ImageView imagen;
         public TextView nombrePelicula;
         public TextView anioPelicula;
-        public PelisViewHolder(@NonNull View itemView) {
+        public PelisViewHolder(@NonNull View itemView, RecyclerPelisInterface recyclerPelisInterface) {
             super(itemView);
             imagen = itemView.findViewById(R.id.caratula);
             nombrePelicula = itemView.findViewById(R.id.nombrePeli);
             anioPelicula = itemView.findViewById(R.id.anioPeli);
+            //Opción 2
+            itemView.setOnClickListener(view -> { //funcion lambda (new View.onClickListener)
+                if(recyclerPelisInterface != null){
+                    int pos = getAdapterPosition();
+                    if(pos != RecyclerView.NO_POSITION){
+                        recyclerPelisInterface.onItemClick(pos);
+                    }
+                }
+            });
         }
     }
 
-    public AdaptadorPelis(List<Pelicula> pelis){
+    //Constructor
+    public AdaptadorPelis(List<Pelicula> pelis, RecyclerPelisInterface rvInterface){
         this.dataPelis = pelis;
+        this.recyclerPelisInterface = rvInterface;
     }
 
     @NonNull
@@ -39,7 +50,7 @@ public class AdaptadorPelis extends RecyclerView.Adapter<AdaptadorPelis.PelisVie
     public PelisViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater from = LayoutInflater.from(parent.getContext());
         View inflate = from.inflate(R.layout.item_peli, parent, false);
-        return new PelisViewHolder(inflate);
+        return new PelisViewHolder(inflate, recyclerPelisInterface);
     }
 
     @Override
