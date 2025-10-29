@@ -36,6 +36,15 @@ public class AdaptadorPelis extends RecyclerView.Adapter<AdaptadorPelis.PelisVie
                     }
                 }
             });
+            itemView.setOnLongClickListener(view -> {
+                if(recyclerPelisInterface != null){
+                    int pos = getAdapterPosition();
+                    if(pos != RecyclerView.NO_POSITION){
+                        recyclerPelisInterface.onItemLongClick(pos);
+                    }
+                }
+                return true;
+            });
         }
     }
 

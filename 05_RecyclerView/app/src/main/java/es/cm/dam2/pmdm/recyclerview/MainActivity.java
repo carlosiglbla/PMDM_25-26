@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerPelisInte
 
     private final List<Pelicula> dataPelis = new ArrayList<>();
 
+    private AdaptadorPelis miAdaptadorPelis;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerPelisInte
         RecyclerView rvPelis = findViewById(R.id.rvPeliculas);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rvPelis.setLayoutManager(linearLayoutManager);
-        AdaptadorPelis miAdaptadorPelis = new AdaptadorPelis(dataPelis, this);
+        miAdaptadorPelis = new AdaptadorPelis(dataPelis, this);
         rvPelis.setAdapter(miAdaptadorPelis);
 
         //añadir escucha de eventos
@@ -72,9 +74,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerPelisInte
 
             }
         });
-
-
-
     }
 
     private void initData() {
@@ -95,5 +94,13 @@ public class MainActivity extends AppCompatActivity implements RecyclerPelisInte
     public void onItemClick(int position) {
         Toast.makeText(getApplicationContext(),
                 dataPelis.get(position).getAnio()+"", Toast.LENGTH_LONG).show();
+    }
+
+    public void onItemLongClick(int position){
+        final String nombrePeli = dataPelis.get(position).getNombre();
+        dataPelis.remove(position);
+        miAdaptadorPelis.notifyItemRemoved(position);
+        Toast.makeText(getApplicationContext(), nombrePeli+" ha sido borrada.",
+                Toast.LENGTH_SHORT).show();
     }
 }
