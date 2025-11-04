@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Menus</string>
+    <string name="inicio">Inicio</string>
+    <string name="ayuda">Ayuda</string>
+    <string name="acerca_de">Acerca de</string>
+    <string name="editar">Editar</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="men_s_en_android">Menús en Android</string>
+    <string name="pulsa_el_men_lateral_o_mant_n_pulsado_este_texto_para_ver_el_men_contextual">Pulsa el menú lateral o mantén pulsado este texto para ver el menú contextual</string>
+    <string name="configuraci_n">Configuración</string>
+    <string name="salir">Salir</string>
+</resources>
